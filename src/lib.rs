@@ -15,7 +15,7 @@ enum InnerValue {
     Bool(bool),
     None,
 }
-
+#[allow(private_in_public)]
 impl From<(String, &Value)> for InnerValue {
     fn from(value: (String, &Value)) -> InnerValue {
         match value.1 {
@@ -39,7 +39,6 @@ impl From<(String, &Value)> for InnerValue {
                 InnerValue::Long(parsed.unwrap())
             }
             Value::Str => InnerValue::Str(value.0),
-            // Value::None => InnerValue::None,
         }
     }
 }
