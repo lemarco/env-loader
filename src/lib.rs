@@ -6,10 +6,9 @@ pub enum Value {
     Int,
     Long,
     Bool,
-    None,
 }
 #[derive(Debug, Clone)]
-pub enum InnerValue {
+enum InnerValue {
     Str(String),
     Int(i32),
     Long(i64),
@@ -40,7 +39,7 @@ impl From<(String, &Value)> for InnerValue {
                 InnerValue::Long(parsed.unwrap())
             }
             Value::Str => InnerValue::Str(value.0),
-            Value::None => InnerValue::None,
+            // Value::None => InnerValue::None,
         }
     }
 }
@@ -145,5 +144,19 @@ mod tests {
         let host: String = store.get("HOST").unwrap();
 
         assert_eq!(host, "localhost");
+    }
+    #[test]
+    fn check_bool() {
+        let store = ConfigLoader::new(&[("CRITICAL_FLAG", Value::Bool)]).unwrap();
+        let flag: bool = store.get("CRITICAL_FLAG").unwrap();
+
+        assert!(flag);
+    }
+    #[test]
+    fn check_long() {
+        let store = ConfigLoader::new(&[("LONG_VAR", Value::Long)]).unwrap();
+        let num: i64 = store.get("LONG_VAR").unwrap();
+
+        assert_eq!(num, 5405632342349523);
     }
 }
