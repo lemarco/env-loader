@@ -6,6 +6,6 @@ license = "MIT OR Apache-2.0"
 keywords = ["web", "env"]
 categories = ["env", "server", "web"]
 repository = "https://github.com/lemarco/env-loader"
-
+description = "Simple storage for env variables with typings"
 [dependencies]
 dotenv = { version = "0.15" }
