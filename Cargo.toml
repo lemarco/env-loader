@@ -10,4 +10,4 @@ description = "Simple storage for env variables with typings"
 
 [dependencies]
 dotenv = { version = "0.15" }
-values_macro = { path = "values_macro", version = "0.1.0" }
+env_loader_convert = { git = "https://github.com/lemarco/env_loader_convert.git", version = "0.1.0" }
