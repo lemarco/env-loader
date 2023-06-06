@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::env;
+pub use values_macro::convert;
 #[derive(Debug, Clone)]
 pub enum Value {
     Str,
@@ -131,31 +132,56 @@ impl ConfigLoader {
 mod tests {
     use super::*;
 
+    const VARS: [(&str, Value); 4] = [
+        ("PORT", Value::Int),
+        ("HOST", Value::Str),
+        ("CRITICAL_FLAG", Value::Bool),
+        ("LONG_VAR", Value::Long),
+    ];
     #[test]
     fn check_int() {
-        let store = ConfigLoader::new(&[("PORT", Value::Int)]).unwrap();
+        let store = ConfigLoader::new(&VARS).unwrap();
         let port: i32 = store.get("PORT").unwrap();
         assert_eq!(port, 9999);
     }
     #[test]
     fn check_str() {
-        let store = ConfigLoader::new(&[("HOST", Value::Str)]).unwrap();
+        let store = ConfigLoader::new(&VARS).unwrap();
         let host: String = store.get("HOST").unwrap();
 
         assert_eq!(host, "localhost");
     }
     #[test]
     fn check_bool() {
-        let store = ConfigLoader::new(&[("CRITICAL_FLAG", Value::Bool)]).unwrap();
+        let store = ConfigLoader::new(&VARS).unwrap();
         let flag: bool = store.get("CRITICAL_FLAG").unwrap();
 
         assert!(flag);
     }
     #[test]
     fn check_long() {
-        let store = ConfigLoader::new(&[("LONG_VAR", Value::Long)]).unwrap();
+        let store = ConfigLoader::new(&VARS).unwrap();
         let num: i64 = store.get("LONG_VAR").unwrap();
 
+        assert_eq!(num, 5405632342349523);
+    }
+
+    #[test]
+    fn check_multiple_values_with_macro() {
+        let env_values = convert! {
+            PORT:int,
+            HOST:str,
+            CRITICAL_FLAG:bool,
+            LONG_VAR:i64
+        };
+        let store = ConfigLoader::new(&env_values).unwrap();
+        let port: i32 = store.get("PORT").unwrap();
+        let host: String = store.get("HOST").unwrap();
+        let flag: bool = store.get("CRITICAL_FLAG").unwrap();
+        let num: i64 = store.get("LONG_VAR").unwrap();
+        assert_eq!(port, 9999);
+        assert_eq!(host, "localhost");
+        assert!(flag);
         assert_eq!(num, 5405632342349523);
     }
 }
