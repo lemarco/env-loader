@@ -37,7 +37,6 @@ fn check(
     val: &inner_value::InnerValue,
     constraints: &Option<Vec<Constraint>>,
 ) -> Result<bool, ConstraintValidationError> {
-  
     match constraints {
         Some(constraints) => match val {
             InnerValue::Int(val) => validators::check_num(*val as i64, constraints),
@@ -48,12 +47,18 @@ fn check(
         None => Ok(true),
     }
 }
+
 impl ConfigLoader {
-    pub fn new<T>(names: T) -> Result<Self, ConfigLoaderError>
+    pub fn new<T>(names: T, path: Option<&'static str>) -> Result<Self, ConfigLoaderError>
     where
         T: IntoIterator<Item = (&'static str, Value, String)>,
     {
-        let dotenv_reading_result = dotenv::dotenv();
+        let dotenv_reading_result = if let Some(path) = path {
+            dotenv::from_filename(path)
+        } else {
+            dotenv::dotenv()
+        };
+
         if dotenv_reading_result.is_err() {
             return Err(ConfigLoaderError::NoEnvFile);
         }

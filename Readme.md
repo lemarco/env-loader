@@ -16,7 +16,7 @@ Package should not panic in any case.
             CRITICAL_FLAG: bool, // same rule for bool | boolean
             LONG_VAR: i64        // same rule for i64 | long
         };
-  let store = ConfigLoader::new(env_values).unwrap();
+  let store = ConfigLoader::new(env_values, None).unwrap(); // second arg for custom env file
   let port: i32 = store.get("PORT").unwrap();
   let host: String = store.get("HOST").unwrap();
   let flag: bool = store.get("CRITICAL_FLAG").unwrap();
@@ -47,7 +47,16 @@ After name of variable and type devided by ':' you can add constraints devided b
 - optional for all types
 
 Trailing comma is not supported.
-
+## Using with custom file
+```rust
+  let env_values = convert_values! {
+            PORT: int,
+            HOST: str,  
+        };
+  let store = ConfigLoader::new(env_values, Some(".env.test")).unwrap();
+  let port: i32 = store.get("PORT").unwrap();
+  let host: String = store.get("HOST").unwrap();
+```
 
 - If you find env-loader useful in your projects, I kindly request your support by starring the corresponding Git repository. 
 - Additionally, I welcome you to actively engage with the repository by opening issues if you encounter any bugs, inconsistencies, or areas for improvement. Your input is immensely valuable, as it helps me identify and resolve any issues promptly. Furthermore, if you have proposals or ideas for enhancing the functionality of env-loader, please don't hesitate to share them as well. I believe in collaborative development and welcome your contributions to make this crate even more exceptional.
