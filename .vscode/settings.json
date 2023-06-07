@@ -1,6 +1,0 @@
-{
-    "rust-analyzer.linkedProjects": [
-        "./src/env_values_macro/Cargo.toml",
-        "./src/env_values_macro/Cargo.toml"
-    ]
-}
