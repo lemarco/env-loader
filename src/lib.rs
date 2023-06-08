@@ -27,6 +27,14 @@ fn parse_constraint(constraint_mask: &str) -> Option<Vec<Constraint>> {
             1 => res.push(Constraint::Min(value.parse().unwrap())),
             2 => res.push(Constraint::Optional),
             3 => res.push(Constraint::NotEmpty),
+            // 4 => {
+            //     let minmax: Vec<i64> = value
+            //         .split(';')
+            //         .map(|v| v.parse::<i64>().unwrap())
+            //         .collect();
+            //     res.push(Constraint::MinMax(minmax[0], minmax[1]))
+            // }
+            4 => res.push(Constraint::Len(value.parse().unwrap())),
             _ => continue,
         }
     }

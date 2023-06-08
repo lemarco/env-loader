@@ -1,6 +1,6 @@
 [package]
 name = "env-loader"
-version = "0.3.1"
+version = "0.3.2"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 keywords = ["web", "env", "settings", "config"]
@@ -10,4 +10,4 @@ description = "Simple storage for env variables with typings"
 
 [dependencies]
 dotenv = { version = "0.15" }
-env_loader_convert = { version = "0.2" }
+env_loader_convert = { version = "0.2.1" }

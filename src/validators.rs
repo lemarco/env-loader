@@ -5,6 +5,8 @@ pub enum Constraint {
     Max(i64),
     NotEmpty,
     Optional,
+    Len(usize),
+    // MinMax(i64, i64),
 }
 
 pub(crate) fn check_num(val: i64, cons: &[Constraint]) -> Result<bool, ConstraintValidationError> {
@@ -20,6 +22,11 @@ pub(crate) fn check_num(val: i64, cons: &[Constraint]) -> Result<bool, Constrain
                     return Err(ConstraintValidationError::MaxConstraintViolation);
                 }
             }
+            // Constraint::MinMax(min, max) => {
+            //     if val > *max || val < *min {
+            //         return Err(ConstraintValidationError::MaxConstraintViolation);
+            //     }
+            // }
             _ => continue,
         }
     }
@@ -35,6 +42,17 @@ pub(crate) fn check_str(val: &str, cons: &[Constraint]) -> Result<bool, Constrai
             }
             Constraint::Max(con_val) => {
                 if val.len() as i64 > *con_val {
+                    return Err(ConstraintValidationError::MaxConstraintViolation);
+                }
+            }
+            // Constraint::MinMax(min, max) => {
+            //     let len = val.len() as i64;
+            //     if len > *max || len < *min {
+            //         return Err(ConstraintValidationError::MaxConstraintViolation);
+            //     }
+            // }
+            Constraint::Len(len) => {
+                if *len != val.len() {
                     return Err(ConstraintValidationError::MaxConstraintViolation);
                 }
             }

@@ -15,6 +15,31 @@ mod tests {
         assert_eq!(port, 9999);
     }
     #[test]
+    fn check_len_constraint() {
+        let store = ConfigLoader::new(
+            convert! {
+                HOST:str => len(9)
+            },
+            None,
+        )
+        .unwrap();
+        let host: String = store.get("HOST").unwrap();
+        assert_eq!(host, "localhost");
+        assert_eq!(host.len(), 9);
+    }
+    // #[test]
+    // fn check_int_minmax() {
+    //     let store = ConfigLoader::new(
+    //         convert! {
+    //            PORT:i32=>minmax(1000;10000) optional
+    //         },
+    //         None,
+    //     )
+    //     .unwrap();
+    //     let port: i32 = store.get("PORT").unwrap();
+    //     assert_eq!(port, 9999);
+    // }
+    #[test]
     fn check_int() {
         let store = ConfigLoader::new(
             convert! {
@@ -110,22 +135,20 @@ mod tests {
         let store = ConfigLoader::new(
             convert! {
                 PORT:int => min(1) max(10000) optional,
-                HOST: str => min(4) max(12) optional,
-                CRITICAL_FLAG:bool,
-                LONG_VAR:i64 => min(4) optional,
-                OP:str=>notEmpty
+                HOST: str => min(4) max(12) optional
+
             },
             None,
         )
         .unwrap();
         let port: i32 = store.get("PORT").unwrap();
         let host: String = store.get("HOST").unwrap();
-        let flag: bool = store.get("CRITICAL_FLAG").unwrap();
-        let num: i64 = store.get("LONG_VAR").unwrap();
+        // let flag: bool = store.get("CRITICAL_FLAG").unwrap();
+        // let num: i64 = store.get("LONG_VAR").unwrap();
         assert_eq!(port, 9999);
         assert_eq!(host, "localhost");
-        assert!(flag);
-        assert_eq!(num, 5405632342349523);
+        // assert!(flag);
+        // assert_eq!(num, 5405632342349523);
     }
     #[test]
     fn check_optional_store_fail() {

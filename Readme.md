@@ -10,7 +10,7 @@ Package should not panic in any case.
 
 ## Using with macro
 ```rust
-  let env_values = convert_values! {
+  let env_values = convert! {
             PORT: int,           // typing is anything possible to lovercase to i32, int, integer: Int,int,INT,Integer,I32,etc..
             HOST: str,           // same rule for str | string       
             CRITICAL_FLAG: bool, // same rule for bool | boolean
@@ -31,7 +31,7 @@ Package should not panic in any case.
 ## Using with constraints
 After name of variable and type devided by ':' you can add constraints devided by "=>" 
 ```rust
-  let env_values = convert_values! {
+  let env_values = convert! {
             PORT: int => min(1000) max(2000),      
             HOST: str => min(10),             
             CRITICAL_FLAG: bool => optional, 
@@ -49,7 +49,7 @@ After name of variable and type devided by ':' you can add constraints devided b
 Trailing comma is not supported.
 ## Using with custom file
 ```rust
-  let env_values = convert_values! {
+  let env_values = convert! {
             PORT: int,
             HOST: str,  
         };
